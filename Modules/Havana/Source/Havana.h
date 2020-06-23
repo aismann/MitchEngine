@@ -1,5 +1,5 @@
 #pragma once
-#include "Renderer.h"
+#include "LegacyRenderer.h"
 #include <functional>
 #include "ECS/Entity.h"
 #include "ECS/EntityHandle.h"
@@ -31,7 +31,7 @@ public:
 		class Transform* Parent;
 	};
 
-	Havana(class Engine* GameEngine, class EditorApp* app, Moonlight::Renderer* renderer);
+	Havana(class Engine* GameEngine, class EditorApp* app, Moonlight::LegacyRenderer* renderer);
 
 	void InitUI();
 
@@ -74,7 +74,7 @@ public:
 	EntityHandle SelectedEntity;
 	class Transform* SelectedTransform = nullptr;
 	class BaseCore* SelectedCore = nullptr;
-	Moonlight::Renderer* Renderer = nullptr;
+	Moonlight::LegacyRenderer* Renderer = nullptr;
 	Vector2 RenderSize;
 	Vector2 GameRenderSize;
 	Vector2 WorldViewRenderSize;

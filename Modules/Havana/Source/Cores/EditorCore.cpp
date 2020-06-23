@@ -18,7 +18,7 @@
 #include "Mathf.h"
 #include "optick.h"
 #include "Config.h"
-#include "Renderer.h"
+#include "LegacyRenderer.h"
 #include "Cores/Rendering/RenderCore.h"
 #include "Components/Graphics/Mesh.h"
 

@@ -1,7 +1,7 @@
 #include "ShaderCommand.h"
 
 #include "Utils/DirectXHelper.h"
-#include "Renderer.h"
+#include "LegacyRenderer.h"
 #include "Game.h"
 
 #include <VertexTypes.h>
@@ -117,7 +117,7 @@ namespace Moonlight
 	ShaderCommand::ShaderCommand(const std::string& InShaderFile)
 	{
 		OPTICK_EVENT("ShaderCommand(string)");
-		auto& dxDevice = static_cast<DX11Device&>(GetEngine().GetRenderer().GetDevice());
+		auto& dxDevice = static_cast<LegacyDX11Device&>(GetEngine().GetRenderer().GetDevice());
 
 		if (!dxDevice.FindShader(InShaderFile, Program))
 		{
@@ -151,7 +151,7 @@ namespace Moonlight
 		{
 			return;
 		}
-		auto& dxDevice = static_cast<DX11Device&>(GetEngine().GetRenderer().GetDevice());
+		auto& dxDevice = static_cast<LegacyDX11Device&>(GetEngine().GetRenderer().GetDevice());
 		dxDevice.GetD3DDeviceContext()->IASetInputLayout(Program.InputLayout.Get());
 
 		// Attach our vertex shader.

@@ -35,7 +35,7 @@
 #include <winuser.h>
 namespace fs = std::filesystem;
 
-Havana::Havana(Engine* GameEngine, EditorApp* app, Moonlight::Renderer* renderer)
+Havana::Havana(Engine* GameEngine, EditorApp* app, Moonlight::LegacyRenderer* renderer)
 	: Renderer(renderer)
 	, m_engine(GameEngine)
 	, m_app(app)

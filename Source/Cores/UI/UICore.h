@@ -15,7 +15,7 @@
 #include "UI/FileSystemBasic.h"
 #include "UI/FileLogger.h"
 
-namespace Moonlight { class Renderer; }
+namespace Moonlight { class LegacyRenderer; }
 
 class UICore final
 	: public Core<UICore>
@@ -46,7 +46,7 @@ public:
 
 	bool IsInitialized = false;
 
-	Moonlight::Renderer* m_renderer;
+	Moonlight::LegacyRenderer* m_renderer;
 	ultralight::RefPtr<ultralight::Renderer> m_uiRenderer;
 	std::unique_ptr<ultralight::FileSystemBasic> m_fs;
 	std::unique_ptr<ultralight::GPUDriverD3D11> m_driver = nullptr;

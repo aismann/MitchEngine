@@ -6,8 +6,8 @@
 
 #if ME_PLATFORM_WIN64
 
-#include "Renderer.h"
-#include "Device/DX11Device.h"
+#include "LegacyRenderer.h"
+#include "Device/LegacyDX11Device.h"
 #include <tchar.h>
 #include <dwmapi.h>
 #include "Utils/StringUtils.h"

@@ -22,7 +22,7 @@ namespace Moonlight
 		SkyMaterial = new Material("Unlit", "Assets/Shaders/UnlitShader.hlsl");
 		SkyMaterial->SetTexture(TextureType::Diffuse, SkyMap);
 
-		auto device = static_cast<DX11Device&>(GetEngine().GetRenderer().GetDevice());
+		auto device = static_cast<LegacyDX11Device&>(GetEngine().GetRenderer().GetDevice());
 
 		D3D11_RASTERIZER_DESC cmdesc;
 
@@ -51,7 +51,7 @@ namespace Moonlight
 
 	void SkyBox::Draw()
 	{
-		auto device = static_cast<DX11Device&>(GetEngine().GetRenderer().GetDevice()).GetD3DDeviceContext();
+		auto device = static_cast<LegacyDX11Device&>(GetEngine().GetRenderer().GetDevice()).GetD3DDeviceContext();
 
 		SkyMaterial->MeshShader.Use();
 

@@ -2,9 +2,9 @@
 #include <iostream>
 
 #include "Graphics/ShaderStructures.h"
-#include "Device/DX11Device.h"
+#include "Device/LegacyDX11Device.h"
 #include "CLog.h"
-#include "Renderer.h"
+#include "LegacyRenderer.h"
 #include "Utils/DirectXHelper.h"
 #include <DirectXMath.h>
 #include "ShaderCommand.h"
@@ -33,7 +33,7 @@ namespace Moonlight
 
 	void MeshData::InitMesh()
 	{
-		auto& device = static_cast<DX11Device&>(GetEngine().GetRenderer().GetDevice());
+		auto& device = static_cast<LegacyDX11Device&>(GetEngine().GetRenderer().GetDevice());
 
 		D3D11_SUBRESOURCE_DATA vertexBufferData = { 0 };
 		vertexBufferData.pSysMem = &vertices[0];
@@ -68,7 +68,7 @@ namespace Moonlight
 	{
 		OPTICK_EVENT("Mesh::Draw", Optick::Category::Rendering);
 
-		auto context = static_cast<DX11Device&>(GetEngine().GetRenderer().GetDevice()).GetD3DDeviceContext();
+		auto context = static_cast<LegacyDX11Device&>(GetEngine().GetRenderer().GetDevice()).GetD3DDeviceContext();
 
 		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 

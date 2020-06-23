@@ -1,4 +1,4 @@
-#include "DX11Device.h"
+#include "LegacyDX11Device.h"
 #include "Utils/DirectXHelper.h"
 
 #if ME_DIRECTX
@@ -33,7 +33,7 @@ namespace Moonlight
 	std::unique_ptr<DirectX::CommonStates> CommonStatesHelper;
 
 	// Constructor for DeviceResources.
-	DX11Device::DX11Device()
+	LegacyDX11Device::LegacyDX11Device()
 		: IDevice()
 		, m_screenViewport()
 		, m_d3dFeatureLevel(D3D_FEATURE_LEVEL_11_1)
@@ -51,7 +51,7 @@ namespace Moonlight
 	}
 
 	// Configures resources that don't depend on the Direct3D device.
-	void DX11Device::CreateFactories()
+	void LegacyDX11Device::CreateFactories()
 	{
 		// Initialize Direct2D resources.
 		D2D1_FACTORY_OPTIONS options;
@@ -83,7 +83,7 @@ namespace Moonlight
 	}
 
 	// Configures the Direct3D device, and stores handles to it and the device context.
-	void DX11Device::CreateDeviceResources()
+	void LegacyDX11Device::CreateDeviceResources()
 	{
 		// This flag adds support for surfaces with a different color channel ordering
 		// than the API default. It is required for compatibility with Direct2D.
@@ -196,7 +196,7 @@ namespace Moonlight
 		}
 	}
 
-	Microsoft::WRL::ComPtr<ID3DBlob> DX11Device::CompileShader(const Path& FileName, const std::string& EntryPoint, const std::string& Profile)
+	Microsoft::WRL::ComPtr<ID3DBlob> LegacyDX11Device::CompileShader(const Path& FileName, const std::string& EntryPoint, const std::string& Profile)
 	{
 		OPTICK_EVENT("CompileShader");
 		UINT Flags = D3DCOMPILE_ENABLE_STRICTNESS;
@@ -234,7 +234,7 @@ namespace Moonlight
 		return Shader;
 	}
 
-	Moonlight::ShaderProgram DX11Device::CreateShaderProgram(const std::string& FilePath, const Microsoft::WRL::ComPtr<ID3DBlob>& vsBytecode, const Microsoft::WRL::ComPtr<ID3DBlob>& psBytecode, const std::vector<D3D11_INPUT_ELEMENT_DESC>* inputLayoutDesc)
+	Moonlight::ShaderProgram LegacyDX11Device::CreateShaderProgram(const std::string& FilePath, const Microsoft::WRL::ComPtr<ID3DBlob>& vsBytecode, const Microsoft::WRL::ComPtr<ID3DBlob>& psBytecode, const std::vector<D3D11_INPUT_ELEMENT_DESC>* inputLayoutDesc)
 	{
 		OPTICK_EVENT("CreateShaderProgram");
 		ShaderProgram Program;
@@ -257,14 +257,14 @@ namespace Moonlight
 		return Program;
 	}
 
-	Moonlight::ComputeProgram DX11Device::CreateComputeProgram(const Microsoft::WRL::ComPtr<ID3DBlob>& csBytecode) const
+	Moonlight::ComputeProgram LegacyDX11Device::CreateComputeProgram(const Microsoft::WRL::ComPtr<ID3DBlob>& csBytecode) const
 	{
 		ComputeProgram program;
 		DX::ThrowIfFailed(m_d3dDevice->CreateComputeShader(csBytecode->GetBufferPointer(), csBytecode->GetBufferSize(), nullptr, &program.ComputeShader));
 		return program;
 	}
 
-	Microsoft::WRL::ComPtr<ID3D11SamplerState> DX11Device::CreateSamplerState(D3D11_FILTER filter, D3D11_TEXTURE_ADDRESS_MODE addressMode) const
+	Microsoft::WRL::ComPtr<ID3D11SamplerState> LegacyDX11Device::CreateSamplerState(D3D11_FILTER filter, D3D11_TEXTURE_ADDRESS_MODE addressMode) const
 	{
 		D3D11_SAMPLER_DESC Desc = {};
 		Desc.Filter = filter;
@@ -282,7 +282,7 @@ namespace Moonlight
 		return samplerState;
 	}
 
-	bool DX11Device::FindShader(const std::string& InPath, ShaderProgram& outShader)
+	bool LegacyDX11Device::FindShader(const std::string& InPath, ShaderProgram& outShader)
 	{
 		if (m_shaderCache.find(InPath) != m_shaderCache.end())
 		{
@@ -292,7 +292,7 @@ namespace Moonlight
 		return false;
 	}
 
-	void DX11Device::SetOutputSize(Vector2 NewSize)
+	void LegacyDX11Device::SetOutputSize(Vector2 NewSize)
 	{
 		if (NewSize != m_outputSize)
 		{
@@ -301,7 +301,7 @@ namespace Moonlight
 		}
 	}
 
-	void DX11Device::InitD2DScreenTexture()
+	void LegacyDX11Device::InitD2DScreenTexture()
 	{
 		//Create the vertex buffer
 		std::vector<Vertex> vertices =
@@ -346,7 +346,7 @@ namespace Moonlight
 	}
 
 	// These resources need to be recreated every time the window size is changed.
-	void DX11Device::CreateWindowSizeDependentResources()
+	void LegacyDX11Device::CreateWindowSizeDependentResources()
 	{
 		UpdateRenderTargetSize();
 
@@ -541,7 +541,7 @@ namespace Moonlight
 
 
 	// Determine the dimensions of the render target and whether it will be scaled down.
-	void DX11Device::UpdateRenderTargetSize()
+	void LegacyDX11Device::UpdateRenderTargetSize()
 	{
 		// Prevent zero size DirectX content from being created.
 #if !ME_EDITOR
@@ -550,7 +550,7 @@ namespace Moonlight
 #endif
 	}
 
-	FrameBuffer* DX11Device::CreateFrameBuffer(UINT Width, UINT Height, UINT Samples, DXGI_FORMAT ColorFormat, DXGI_FORMAT DepthStencilFormat) const
+	FrameBuffer* LegacyDX11Device::CreateFrameBuffer(UINT Width, UINT Height, UINT Samples, DXGI_FORMAT ColorFormat, DXGI_FORMAT DepthStencilFormat) const
 	{
 		FrameBuffer* NewBuffer = new FrameBuffer();
 		NewBuffer->Width = Width;
@@ -755,7 +755,7 @@ namespace Moonlight
 	}
 
 	// This method is called in the event handler for the SizeChanged event.
-	void DX11Device::SetLogicalSize(Vector2 logicalSize)
+	void LegacyDX11Device::SetLogicalSize(Vector2 logicalSize)
 	{
 		if (m_logicalSize != logicalSize)
 		{
@@ -765,7 +765,7 @@ namespace Moonlight
 	}
 
 	// This method is called in the event handler for the DisplayContentsInvalidated event.
-	void DX11Device::ValidateDevice()
+	void LegacyDX11Device::ValidateDevice()
 	{
 		// The D3D Device is no longer valid if the default adapter changed since the device
 		// was created or if the device has been removed.
@@ -817,7 +817,7 @@ namespace Moonlight
 	}
 
 	// Recreate all device resources and set them back to the current state.
-	void DX11Device::HandleDeviceLost()
+	void LegacyDX11Device::HandleDeviceLost()
 	{
 		GetD3DDevice()->Release();
 		m_swapChain = nullptr;
@@ -837,14 +837,14 @@ namespace Moonlight
 	}
 
 	// Register our DeviceNotify to be informed on device lost and creation.
-	void DX11Device::RegisterDeviceNotify(IDeviceNotify* deviceNotify)
+	void LegacyDX11Device::RegisterDeviceNotify(IDeviceNotify* deviceNotify)
 	{
 		m_deviceNotify = deviceNotify;
 	}
 
 	// Call this method when the app suspends. It provides a hint to the driver that the app 
 	// is entering an idle state and that temporary buffers can be reclaimed for use by other apps.
-	void DX11Device::Trim()
+	void LegacyDX11Device::Trim()
 	{
 		ComPtr<IDXGIDevice3> dxgiDevice;
 		m_d3dDevice.As(&dxgiDevice);
@@ -852,19 +852,19 @@ namespace Moonlight
 		dxgiDevice->Trim();
 	}
 
-	void DX11Device::WindowSizeChanged(const Vector2& NewSize)
+	void LegacyDX11Device::WindowSizeChanged(const Vector2& NewSize)
 	{
 		m_logicalSize = NewSize;
 		CreateWindowSizeDependentResources();
 		//m_swapChain->ResizeBuffers(0, NewSize.X(), NewSize.Y(), DXGI_FORMAT_UNKNOWN, 0);
 	}
 
-	const int DX11Device::GetMSAASamples() const
+	const int LegacyDX11Device::GetMSAASamples() const
 	{
 		return MSAASamples;
 	}
 
-	void DX11Device::ResetCullingMode() const
+	void LegacyDX11Device::ResetCullingMode() const
 	{
 		GetD3DDeviceContext()->RSSetState(FrontFaceCulled);
 	}

@@ -100,7 +100,7 @@ void Engine::Init(Game* game)
 	GameWindow = new UWPWindow("MitchEngine", 200, 200);
 #endif
 
-	m_renderer = new Moonlight::Renderer();
+	m_renderer = new Moonlight::LegacyRenderer();
 	m_renderer->WindowResized(GameWindow->GetSize());
 
 	GameWorld = std::make_shared<World>();
@@ -240,7 +240,7 @@ bool Engine::OnEvent(const BaseEvent& evt)
 	return false;
 }
 
-Moonlight::Renderer& Engine::GetRenderer() const
+Moonlight::LegacyRenderer& Engine::GetRenderer() const
 {
 	return *m_renderer;
 }

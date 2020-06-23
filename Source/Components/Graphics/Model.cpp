@@ -1,7 +1,7 @@
 #include "PCH.h"
 #include "Model.h"
 #include "CLog.h"
-#include "Renderer.h"
+#include "LegacyRenderer.h"
 #include "Graphics/ModelResource.h"
 #include "Graphics/ShaderCommand.h"
 #include "Game.h"

@@ -2,7 +2,7 @@
 #include "GPUContextD3D11.h"
 #include <cassert>
 #include "Engine/Engine.h"
-#include "Renderer.h"
+#include "LegacyRenderer.h"
 
 namespace ultralight {
 

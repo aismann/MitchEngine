@@ -25,11 +25,11 @@
 
 namespace Moonlight
 {
-	class DX11Device
+	class LegacyDX11Device
 		: public IDevice
 	{
 	public:
-		DX11Device();
+		LegacyDX11Device();
 
 		// The size of the render target, in pixels.
 		Vector2 GetOutputSize() const { return m_outputSize; }
