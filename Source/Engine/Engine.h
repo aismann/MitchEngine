@@ -1,5 +1,5 @@
 #pragma once
-#include "LegacyRenderer.h"
+#include "Renderer.h"
 #include "World.h"
 #include "Dementia.h"
 #include "Clock.h"
@@ -35,7 +35,7 @@ public:
 	void Run();
 	virtual bool OnEvent(const BaseEvent& evt);
 
-	Moonlight::LegacyRenderer& GetRenderer() const;
+	Moonlight::Renderer& GetRenderer() const;
 
 	std::weak_ptr<World> GetWorld() const;
 	bool IsRunning() const;
@@ -57,7 +57,7 @@ public:
 	Scene* CurrentScene = nullptr;
 private:
 	Input m_input;
-	Moonlight::LegacyRenderer* m_renderer = nullptr;
+	Moonlight::Renderer* m_renderer = nullptr;
 	std::shared_ptr<World> GameWorld;
 	bool Running = false;
 	IWindow* GameWindow = nullptr;

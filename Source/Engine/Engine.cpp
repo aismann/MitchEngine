@@ -27,6 +27,7 @@
 #include <fileapi.h>
 #endif
 #include "Resource/ResourceCache.h"
+#include "Renderer.h"
 
 Engine& GetEngine()
 {
@@ -84,7 +85,8 @@ void Engine::Init(Game* game)
 	{
 		if (m_renderer)
 		{
-			m_renderer->WindowResized(NewSize);
+			// REWRITE
+				//m_renderer->WindowResized(NewSize);
 		}
 		if (UI)
 		{
@@ -100,8 +102,8 @@ void Engine::Init(Game* game)
 	GameWindow = new UWPWindow("MitchEngine", 200, 200);
 #endif
 
-	m_renderer = new Moonlight::LegacyRenderer();
-	m_renderer->WindowResized(GameWindow->GetSize());
+	m_renderer = new Moonlight::Renderer();
+	//m_renderer->WindowResized(GameWindow->GetSize());
 
 	GameWorld = std::make_shared<World>();
 
@@ -112,7 +114,8 @@ void Engine::Init(Game* game)
 	ModelRenderer = new RenderCore();
 	AudioThread = new AudioCore();
 
-	m_renderer->Init();
+	// REWRITE
+	//m_renderer->Init();
 
 	UI = new UICore(GameWindow);
 
@@ -212,11 +215,11 @@ void Engine::Run()
 //			EditorCamera = MainCamera;
 //#endif
 
-			m_renderer->Render([this]() {
+			/*m_renderer->Render([this]() {
 				m_game->PostRender();
 			}, [this]() {
 				UI->Render();
-			}, EditorCamera);
+			}, EditorCamera);*/
 
 			AccumulatedTime = std::fmod(AccumulatedTime, MaxDeltaTime);
 		}
@@ -240,7 +243,7 @@ bool Engine::OnEvent(const BaseEvent& evt)
 	return false;
 }
 
-Moonlight::LegacyRenderer& Engine::GetRenderer() const
+Moonlight::Renderer& Engine::GetRenderer() const
 {
 	return *m_renderer;
 }

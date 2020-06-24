@@ -41,7 +41,8 @@ UICore::UICore(IWindow* window)
 	: Base(ComponentFilter().Requires<Transform>().Requires<BasicUIView>())
 {
 	IsSerializable = false;
-	m_renderer = &GetEngine().GetRenderer();
+	// REWRITE
+	//m_renderer = &GetEngine().GetRenderer();
 
 	m_window = AdoptRef(*new UIWindow(window, GetOverlayManager()));
 	ultralight::Platform& platform = ultralight::Platform::instance();
@@ -79,7 +80,8 @@ UICore::UICore(IWindow* window)
 		exit(-1);
 	}
 
-	m_driver.reset(new ultralight::GPUDriverD3D11(m_context.get(), &GetEngine().GetRenderer().GetDevice()));
+	// REWRITE
+	//m_driver.reset(new ultralight::GPUDriverD3D11(m_context.get(), &GetEngine().GetRenderer().GetDevice()));
 
 	platform.set_gpu_driver(m_driver.get());
 	platform.set_file_system(m_fs.get());
@@ -98,8 +100,9 @@ UICore::~UICore()
 void UICore::Init()
 {
 	CLog::Log(CLog::LogType::Debug, "UICore Initialized...");
-	if (m_renderer)
-		m_renderer->ClearUIText();
+	// REWRITE
+	//if (m_renderer)
+	//	m_renderer->ClearUIText();
 	if (!IsInitialized)
 	{
 		IsInitialized = true;
@@ -117,7 +120,8 @@ void UICore::OnEntityAdded(Entity& NewEntity)
 	{
 		BasicUIView& view = NewEntity.GetComponent<BasicUIView>();
 		
-		InitUIView(view);
+		// REWRITE
+		//InitUIView(view);
 	}
 }
 
@@ -144,8 +148,9 @@ void UICore::Update(float dt)
 #if ME_EDITOR
 	Havana* editor = static_cast<EditorCore*>(GetEngine().GetWorld().lock()->GetCore(EditorCore::GetTypeId()))->GetEditor();
 	
-	evt.x = (GetEngine().GetWindow()->GetPosition().X() + GetEngine().GetInput().GetMousePosition().X()) - editor->GameViewRenderLocation.X();
-	evt.y = (GetEngine().GetWindow()->GetPosition().Y() + GetEngine().GetInput().GetMousePosition().Y()) - editor->GameViewRenderLocation.Y();
+	// REWRITE
+	//evt.x = (GetEngine().GetWindow()->GetPosition().X() + GetEngine().GetInput().GetMousePosition().X()) - editor->GameViewRenderLocation.X();
+	//evt.y = (GetEngine().GetWindow()->GetPosition().Y() + GetEngine().GetInput().GetMousePosition().Y()) - editor->GameViewRenderLocation.Y();
 
 	Vector2 MousePosition = GetEngine().GetInput().GetMousePosition();
 	if (MousePosition == Vector2(0, 0))

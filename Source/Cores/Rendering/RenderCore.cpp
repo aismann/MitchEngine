@@ -24,15 +24,17 @@ RenderCore::RenderCore()
 	: Base(ComponentFilter().Requires<Transform>().RequiresOneOf<Model>().RequiresOneOf<Rigidbody>().RequiresOneOf<Light>().RequiresOneOf<Mesh>().RequiresOneOf<DirectionalLight>())
 {
 	IsSerializable = false;
-	m_renderer = &GetEngine().GetRenderer();
-	m_renderer->RegisterDeviceNotify(this);
+	// REWRITE
+	//m_renderer = &GetEngine().GetRenderer();
+	//m_renderer->RegisterDeviceNotify(this);
 }
 
 void RenderCore::Init()
 {
 	CLog::GetInstance().Log(CLog::LogType::Debug, "RenderCore Initialized...");
-	m_renderer->ClearDebugColliders();
-	m_renderer->ClearMeshes();
+	// REWRITE
+	/*m_renderer->ClearDebugColliders();
+	m_renderer->ClearMeshes();*/
 }
 
 void RenderCore::OnEntityAdded(Entity& NewEntity)
@@ -44,14 +46,16 @@ void RenderCore::OnEntityAdded(Entity& NewEntity)
 		command.SingleMesh = model.MeshReferece;
 		command.MeshMaterial = model.MeshMaterial;
 		command.Type = model.GetType();
-		model.Id = GetEngine().GetRenderer().PushMesh(command);
+		// REWRITE
+		//model.Id = GetEngine().GetRenderer().PushMesh(command);
 	}
 	if (NewEntity.HasComponent<DirectionalLight>())
 	{
 		DirectionalLight& light = NewEntity.GetComponent<DirectionalLight>();
-		GetEngine().GetRenderer().Sunlight.ambient = light.Ambient;
-		GetEngine().GetRenderer().Sunlight.diffuse = light.Diffuse;
-		GetEngine().GetRenderer().Sunlight.dir = light.Direction;
+		// REWRITE
+		//GetEngine().GetRenderer().Sunlight.ambient = light.Ambient;
+		//GetEngine().GetRenderer().Sunlight.diffuse = light.Diffuse;
+		//GetEngine().GetRenderer().Sunlight.dir = light.Direction;
 	}
 }
 
@@ -60,7 +64,8 @@ void RenderCore::OnEntityRemoved(Entity& InEntity)
 	if (InEntity.HasComponent<Mesh>())
 	{
 		Mesh& mesh = InEntity.GetComponent<Mesh>();
-		GetEngine().GetRenderer().PopMesh(mesh.Id);
+		// REWRITE
+		//GetEngine().GetRenderer().PopMesh(mesh.Id);
 	}
 }
 
@@ -91,17 +96,19 @@ void RenderCore::Update(float dt)
 			if (rigidbody.IsRigidbodyInitialized())
 			{
 				// TODO: Use the matrix from the rigidbody
-				m_renderer->UpdateMatrix(rigidbody.Id, transform.GetMatrix().GetInternalMatrix());
+		// REWRITE
+				//m_renderer->UpdateMatrix(rigidbody.Id, transform.GetMatrix().GetInternalMatrix());
 			}
 		}
 		if (InEntity.HasComponent<DirectionalLight>())
 		{
 			DirectionalLight& light = InEntity.GetComponent<DirectionalLight>();
 			auto pos = transform.GetWorldPosition().GetInternalVec();
-			m_renderer->Sunlight.pos = XMFLOAT4(pos.x, pos.y, pos.z, 0);
-			m_renderer->Sunlight.ambient = light.Ambient;
-			m_renderer->Sunlight.diffuse = light.Diffuse;
-			m_renderer->Sunlight.dir = light.Direction;
+			// REWRITE
+			//m_renderer->Sunlight.pos = XMFLOAT4(pos.x, pos.y, pos.z, 0);
+			//m_renderer->Sunlight.ambient = light.Ambient;
+			//m_renderer->Sunlight.diffuse = light.Diffuse;
+			//m_renderer->Sunlight.dir = light.Direction;
 		}
 	}
 }
@@ -109,31 +116,35 @@ void RenderCore::Update(float dt)
 void RenderCore::OnDeviceLost()
 {
 #if ME_DIRECTX
-	m_renderer->ReleaseDeviceDependentResources();
+	// REWRITE
+	//m_renderer->ReleaseDeviceDependentResources();
 #endif
 }
 
 void RenderCore::OnDeviceRestored()
 {
 #if ME_DIRECTX
-	m_renderer->CreateDeviceDependentResources();
-	m_renderer->GetDevice().CreateWindowSizeDependentResources();
+	// REWRITE
+	//m_renderer->CreateDeviceDependentResources();
+	//m_renderer->GetDevice().CreateWindowSizeDependentResources();
 #endif
 }
 
 void RenderCore::OnStop()
 {
-	m_renderer->ClearMeshes();
-	m_renderer->ClearDebugColliders();
+	// REWRITE
+	//m_renderer->ClearMeshes();
+	//m_renderer->ClearDebugColliders();
 }
 
 void RenderCore::UpdateMesh(Mesh* InMesh)
 {
-	m_renderer->PopMesh(InMesh->Id);
+	// REWRITE
+	//m_renderer->PopMesh(InMesh->Id);
 
-	Moonlight::MeshCommand command;
-	command.SingleMesh = InMesh->MeshReferece;
-	command.MeshMaterial = InMesh->MeshMaterial;
-	command.Type = InMesh->GetType();
-	InMesh->Id = m_renderer->PushMesh(command);
+	//Moonlight::MeshCommand command;
+	//command.SingleMesh = InMesh->MeshReferece;
+	//command.MeshMaterial = InMesh->MeshMaterial;
+	//command.Type = InMesh->GetType();
+	//InMesh->Id = m_renderer->PushMesh(command);
 }

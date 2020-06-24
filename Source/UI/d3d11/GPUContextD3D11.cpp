@@ -36,13 +36,14 @@ void GPUContextD3D11::Resize(int width, int height) {
 	}
   set_screen_size(width, height);
 
-  swap_chain_ = GetEngine().GetRenderer().GetDevice().GetSwapChain();
+  // REWRITE
+  /*swap_chain_ = GetEngine().GetRenderer().GetDevice().GetSwapChain();
   immediate_context_ = GetEngine().GetRenderer().GetDevice().GetD3DDeviceContext();
   device_ = GetEngine().GetRenderer().GetDevice().GetD3DDevice();
   if (GetEngine().GetRenderer().GameViewRTT)
   {
 	  back_buffer_view_ = GetEngine().GetRenderer().GameViewRTT->UIRenderTargetView;
-  }
+  }*/
 
   //immediate_context_->OMSetRenderTargets(1, back_buffer_view_.GetAddressOf(), nullptr);
 }
@@ -53,19 +54,19 @@ IDXGISwapChain* GPUContextD3D11::swap_chain() { assert(swap_chain_.Get()); retur
 ID3D11RenderTargetView* GPUContextD3D11::render_target_view() { return back_buffer_view_.Get(); }
 
 void GPUContextD3D11::EnableBlend() {
-  immediate_context_->OMSetBlendState(blend_state_.Get(), NULL, 0xffffffff);
+  if(immediate_context_.Get()) immediate_context_->OMSetBlendState(blend_state_.Get(), NULL, 0xffffffff);
 }
 
 void GPUContextD3D11::DisableBlend() {
-  immediate_context_->OMSetBlendState(disabled_blend_state_.Get(), NULL, 0xffffffff);
+	if (immediate_context_.Get()) immediate_context_->OMSetBlendState(disabled_blend_state_.Get(), NULL, 0xffffffff);
 }
 
 void GPUContextD3D11::EnableScissor() {
-  immediate_context_->RSSetState(scissored_rasterizer_state_.Get());
+	if (immediate_context_.Get()) immediate_context_->RSSetState(scissored_rasterizer_state_.Get());
 }
 
 void GPUContextD3D11::DisableScissor() {
-  immediate_context_->RSSetState(rasterizer_state_.Get());
+	if (immediate_context_.Get()) immediate_context_->RSSetState(rasterizer_state_.Get());
 }
 
 // Scale is calculated from monitor DPI, see Application::SetScale
@@ -87,14 +88,15 @@ bool GPUContextD3D11::Initialize(int screen_width, int screen_height, double scr
 
   HRESULT hr = S_OK;
 
-  swap_chain_ = GetEngine().GetRenderer().GetDevice().GetSwapChain();
-  immediate_context_ = GetEngine().GetRenderer().GetDevice().GetD3DDeviceContext();
-  device_ = GetEngine().GetRenderer().GetDevice().GetD3DDevice();
-  if (back_buffer_view_)
-  {
-	back_buffer_view_ = GetEngine().GetRenderer().GameViewRTT->UIRenderTargetView;
-	immediate_context_->OMSetRenderTargets(1, back_buffer_view_.GetAddressOf(), nullptr);
-  }
+  // REWRITE
+// swap_chain_ = GetEngine().GetRenderer().GetDevice().GetSwapChain();
+ // immediate_context_ = GetEngine().GetRenderer().GetDevice().GetD3DDeviceContext();
+ // device_ = GetEngine().GetRenderer().GetDevice().GetD3DDevice();
+ // if (back_buffer_view_)
+ // {
+	//back_buffer_view_ = GetEngine().GetRenderer().GameViewRTT->UIRenderTargetView;
+	//immediate_context_->OMSetRenderTargets(1, back_buffer_view_.GetAddressOf(), nullptr);
+ // }
 
   // Create Enabled Blend State
 
@@ -115,7 +117,8 @@ bool GPUContextD3D11::Initialize(int screen_width, int screen_height, double scr
   blend_desc.IndependentBlendEnable = false;
   blend_desc.RenderTarget[0] = rt_blend_desc;
 
-  device()->CreateBlendState(&blend_desc, blend_state_.GetAddressOf());
+  // REWRITE
+  //device()->CreateBlendState(&blend_desc, blend_state_.GetAddressOf());
 
   // Create Disabled Blend State
 
@@ -134,7 +137,8 @@ bool GPUContextD3D11::Initialize(int screen_width, int screen_height, double scr
   blend_desc.IndependentBlendEnable = false;
   blend_desc.RenderTarget[0] = rt_blend_desc;
 
-  device()->CreateBlendState(&blend_desc, disabled_blend_state_.GetAddressOf());
+  // REWRITE
+  //device()->CreateBlendState(&blend_desc, disabled_blend_state_.GetAddressOf());
 
   EnableBlend();
 
@@ -156,7 +160,8 @@ bool GPUContextD3D11::Initialize(int screen_width, int screen_height, double scr
   rasterizer_desc.AntialiasedLineEnable = false;
 #endif
 
-  device()->CreateRasterizerState(&rasterizer_desc, rasterizer_state_.GetAddressOf());
+  // REWRITE
+  //device()->CreateRasterizerState(&rasterizer_desc, rasterizer_state_.GetAddressOf());
 
   D3D11_RASTERIZER_DESC scissor_rasterizer_desc;
   ZeroMemory(&scissor_rasterizer_desc, sizeof(scissor_rasterizer_desc));
@@ -176,7 +181,8 @@ bool GPUContextD3D11::Initialize(int screen_width, int screen_height, double scr
   scissor_rasterizer_desc.AntialiasedLineEnable = false;
 #endif
 
-  device()->CreateRasterizerState(&scissor_rasterizer_desc, scissored_rasterizer_state_.GetAddressOf());
+  // REWRITE
+  //device()->CreateRasterizerState(&scissor_rasterizer_desc, scissored_rasterizer_state_.GetAddressOf());
 
   DisableScissor();
 
